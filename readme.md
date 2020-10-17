@@ -59,7 +59,8 @@ cd provision
 ansible-playbook -i hosts playbook.yml
 ```
 or simply run
-```DoIt.sh
+```shell
+DoIt.sh
 ```
 
 ## Check
