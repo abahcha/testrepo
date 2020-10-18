@@ -1,0 +1,17 @@
+#########################################################
+# Wordpress on Ubuntu 20.04 LAMP
+#########################################################
+---
+- hosts: all
+  roles:
+    - common
+
+- hosts: base
+  roles:
+    - inst_base
+    - conf_wp_base
+
+- hosts: web
+  roles:
+    - inst_web
+    - conf_wp_web

@@ -1,0 +1,49 @@
+---
+# tasks file for conf_wp_base
+  become: true
+  vars:
+    - mysql_socket: "/var/run/mysqld/mysqld.sock"
+
+  # MySQL WP config
+    - name: Creates database for WordPress
+      mysql_db:
+        name: "{{ mysql_db }}"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        login_unix_socket: "{{ mysql_socket }}"
+      tags: [ wordpress ]
+
+    - name: Create MySQL user for WordPress
+      mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+#        host: "{{ wp_host }}"
+        host: "%"
+        priv: "{{ mysql_db }}.*:ALL"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        login_unix_socket: "{{ mysql_socket }}"
+      tags: [ wordpress ]
+
+    - name: Copy database dump file for WordPress
+      copy:
+        src: "files/wordpress.sql.bz2"
+        dest: "/tmp"
+      tags: [ wordpress ]
+
+    - name: Restore MySQL config database for WordPress
+      mysql_db:
+        name: "{{ mysql_db }}"
+        state: import
+        target: "/tmp/wordpress.sql.bz2"
+        login_user: "root"
+        login_password: "{{ mysql_root_password }}"
+        login_unix_socket: "{{ mysql_socket }}"
+      tags: [ wordpress ]
+
+    - name: And any more for MySQL config database for WordPress
+      shell: echo "update wp_options set option_value='http://{{ wp_host }}' where option_name in ('siteurl', 'home');" | mysql -u root -p{{ mysql_root_password }} -S {{ mysql_socket }} wordpress
+      tags: [ wordpress ]
+

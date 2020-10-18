@@ -1,0 +1,40 @@
+---
+# tasks file for web
+  become: true
+  vars:
+    - http_owner: "www-data"
+    - http_group: "www-data"
+
+  # WordPress Configuration
+    - name: Download and unpack latest WordPress
+      unarchive:
+        src: https://wordpress.org/latest.tar.gz
+        dest: "/var/www/{{ http_host }}"
+        mode: 0750
+        remote_src: yes
+        creates: "/var/www/{{ http_host }}/wordpress"
+      tags: [ wordpress ]
+
+    - name: Download and unpack authLdap plugin
+      unarchive:
+        src: files/authLdap.tar.gz
+        dest: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
+        mode: 0750
+        creates: "/var/www/{{ http_host }}/wordpress/wp-content/plugins/authLdap"
+      tags: [ wordpress ] 
+ 
+    - name: Set ownership 
+      file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        recurse: yes
+        owner: "{{ http_owner }}"
+        group: "{{ http_group }}"
+      tags: [ wordpress ]
+
+    - name: Set up wp-config
+      template:
+        src: "templates/wp-config.php.j2"
+        dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
+      tags: [ wordpress ]
+

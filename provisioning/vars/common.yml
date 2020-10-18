@@ -1,0 +1,20 @@
+---
+#System Settings
+serv_user: "serviceuser"
+serv_pass: "service"
+
+#MySQL Settings
+mysql_root_password: "yapass"
+mysql_db: "wordpress"
+mysql_user: "luser"
+mysql_password: "parole"
+mysql_port: "3306"
+mysql_host: "192.168.100.2"
+
+#WP Settings
+http_host: "test_wp"
+http_conf: "test_wp.conf"
+http_port: "80"
+wp_host: "192.168.100.3"
+
+php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip', 'php-ldap' ]
