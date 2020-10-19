@@ -1,9 +1,5 @@
 ---
 # tasks file for web
-  become: true
-  vars:
-    - http_owner: "www-data"
-    - http_group: "www-data"
 
     - name: Install LAP Packages
       apt: name={{ item }} update_cache=yes state=latest
@@ -27,7 +23,7 @@
 
     - name: Set up Apache VirtualHost
       template:
-        src: "files/apache.conf.j2"
+        src: "templates/apache.conf.j2"
         dest: "/etc/apache2/sites-available/{{ http_conf }}"
       notify: Reload Apache
       tags: [ apache_conf ]

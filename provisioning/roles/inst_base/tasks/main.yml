@@ -1,8 +1,5 @@
 ---
 # tasks file for database
-  become: true
-  vars:
-    - mysql_socket: "/var/run/mysqld/mysqld.sock"
 
   # MySQL base install
     - name: Install M Packages

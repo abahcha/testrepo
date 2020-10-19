@@ -1,3 +1,0 @@
----
-serv_user: "{{ serv_user }}"
-serv_pass: "{{ serv_pass }}"

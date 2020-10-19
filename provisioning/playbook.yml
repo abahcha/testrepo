@@ -3,15 +3,24 @@
 #########################################################
 ---
 - hosts: all
+  become: true
+  vars_files:
+    - vars/common.yml
   roles:
     - common
 
 - hosts: base
+  become: true
+  vars_files:
+    - vars/common.yml
   roles:
     - inst_base
     - conf_wp_base
 
 - hosts: web
+  become: true
+  vars_files:
+    - vars/common.yml
   roles:
     - inst_web
     - conf_wp_web

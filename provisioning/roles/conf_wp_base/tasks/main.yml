@@ -1,8 +1,5 @@
 ---
 # tasks file for conf_wp_base
-  become: true
-  vars:
-    - mysql_socket: "/var/run/mysqld/mysqld.sock"
 
   # MySQL WP config
     - name: Creates database for WordPress
@@ -44,6 +41,6 @@
       tags: [ wordpress ]
 
     - name: And any more for MySQL config database for WordPress
-      shell: echo "update wp_options set option_value='http://{{ wp_host }}' where option_name in ('siteurl', 'home');" | mysql -u root -p{{ mysql_root_password }} -S {{ mysql_socket }} wordpress
+      shell: echo "update wp_options set option_value='http://{{ wp_host }}' where option_name in ('siteurl', 'home');" | mysql -u root -p{{ mysql_root_password }} -S {{ mysql_socket }} {{ mysql_db }}
       tags: [ wordpress ]
 

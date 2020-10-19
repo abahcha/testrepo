@@ -1,9 +1,5 @@
 ---
 # tasks file for web
-  become: true
-  vars:
-    - http_owner: "www-data"
-    - http_group: "www-data"
 
   # WordPress Configuration
     - name: Download and unpack latest WordPress
