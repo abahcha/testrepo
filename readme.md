@@ -29,6 +29,7 @@ cd testrepo
 ```shell
 nano Vagrantfile
 nano provision/vars/common.yml
+nano provision/vars/wp_init.yml
 ```
 **Attention! If you want to change the IP addresses of the hosts, you must:
 1.place the IP addresses of the hosts in the same network range (\ 24)
