@@ -9,7 +9,7 @@
         mode: 0750
         remote_src: yes
         creates: "/var/www/{{ http_host }}/wordpress"
-      tags: [ wordpress ]
+      tags: [ wp_install ]
 
     - name: Download and unpack authLdap plugin
       unarchive:
@@ -17,7 +17,7 @@
         dest: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
         mode: 0750
         creates: "/var/www/{{ http_host }}/wordpress/wp-content/plugins/authLdap"
-      tags: [ wordpress ] 
+      tags: [ wp_install ] 
  
     - name: Set ownership 
       file:
@@ -26,11 +26,28 @@
         recurse: yes
         owner: "{{ http_owner }}"
         group: "{{ http_group }}"
-      tags: [ wordpress ]
+      tags: [ wp_install ]
 
     - name: Set up wp-config
       template:
         src: "templates/wp-config.php.j2"
         dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
-      tags: [ wordpress ]
+      tags: [ wp_config ]
+      
+    - name: Initial wp pre config
+      uri:
+        url: http://{{ wp_host }}/wp-admin/install.php?step=1
+        method: POST
+        body: "language={{ wp_lang }}"
+        headers:
+          Content-Type: "application/x-www-form-urlencoded"
+      tags: [ wp_config ]
 
+    - name: Initial wp config
+      uri:
+        url: http://{{ wp_host }}/wp-admin/install.php?step=2
+        method: POST
+        body: "weblog_title={{ wp_blog_title }}&user_name={{ wp_admin }}&admin_password={{ wp_admin_pass }}&admin_password2={{ wp_admin_pass }}&pw_weak=on&admin_email={{ wp_admin }}%40{{ wp_email_dom }}&Submit=Install%20WordPress&language={{ wp_lang }}"
+        headers:
+          Content-Type: "application/x-www-form-urlencoded"
+      tags: [ wp_config ]
