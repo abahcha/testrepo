@@ -34,6 +34,8 @@
         dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
       tags: [ wp_config ]
       
+    - meta: flush_handlers
+    
     - name: Initial wp pre config
       uri:
         url: http://{{ wp_host }}/wp-admin/install.php?step=1
