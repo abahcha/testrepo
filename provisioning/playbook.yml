@@ -21,6 +21,7 @@
   become: true
   vars_files:
     - vars/common.yml
+    - vars/init_wp.yml
   roles:
     - inst_web
     - conf_wp_web
