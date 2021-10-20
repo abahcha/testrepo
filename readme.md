@@ -3,7 +3,7 @@
 Prerequestions: Linux, Git, Virtualbox (+ kernel module), Vagrant, Ansible.
 
 This scenario will install a WordPress website on the top of a LAMP environment (**L**inux, **A**pache, **M**ySQL and **P**HP) on a two virtualbox machines, running Ubuntu 20.04. 
-Playbook derived basically from [https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-wordpress-with-lamp-on-ubuntu-18-04]. **authLdap** plugin taked from [https://github.com/heiglandreas/authLdap.git] and cleaned of unnesessary files. A virtualhosts will be created with the options specified in the `provisioning/vars/common.yml` variable file. 
+Playbook derived basically from [https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-wordpress-with-lamp-on-ubuntu-18-04]. **authLdap** plugin taken from [https://github.com/heiglandreas/authLdap.git] and cleaned of unnecessary files. A virtualhosts will be created with the options specified in the `provisioning/vars/common.yml` variable file. 
 
 ## Settings
 
