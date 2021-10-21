@@ -4,15 +4,3 @@
     - name: Install prerequisites
       apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
       tags: [ system ]
-
-    - name: Create service user
-      user:
-       name: "{{ serv_user }}"
-       password: "{{ serv_pass | password_hash('sha512') }}"
-       update_password: on_create
-      tags: [ servuser ]
-      
-    - name: Register service user in sudoers (for systemctl execution)
-      shell: echo "{{ serv_user }} ALL=(ALL) /usr/bin/systemctl" | sudo tee /etc/sudoers.d/{{ serv_user }}
-#      shell: `echo "{{ serv_user }} ALL=(ALL) NOPASSWD: /usr/bin/systemctl" | sudo tee /tmp/{{ serv_user }}`
-      tags: [ servuser ]

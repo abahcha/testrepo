@@ -1,8 +1,4 @@
 ---
-#System Settings
-serv_user: "serviceuser"
-serv_pass: "service"
-
 #MySQL Settings
 mysql_root_password: "yapass"
 mysql_db: "wordpress"
@@ -17,4 +13,16 @@ http_conf: "test_wp.conf"
 http_port: "80"
 wp_host: "192.168.100.3"
 
-php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip', 'php-ldap' ]
+php_modules: 
+    - 'php-curl'
+    - 'php-gd'
+    - 'php-mbstring'
+    - 'php-xml'
+    - 'php-xmlrpc'
+    - 'php-soap'
+    - 'php-intl'
+    - 'php-zip'
+    - 'php-fpm'
+    - 'php-ldap'
+
+php_ver: "7.4"

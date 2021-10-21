@@ -13,9 +13,10 @@
 
     - name: Download and unpack authLdap plugin
       unarchive:
-        src: files/authLdap.tar.gz
+        src: https://downloads.wordpress.org/plugin/authldap.zip
         dest: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
         mode: 0750
+        remote_src: yes
         creates: "/var/www/{{ http_host }}/wordpress/wp-content/plugins/authLdap"
       tags: [ wp_install ] 
  

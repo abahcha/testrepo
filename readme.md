@@ -1,9 +1,17 @@
-# Wordpress on Ubuntu 20.04 LAMP - two machines auto provision with LDAP authentication against ldap.forumsys.com.
+# Wordpress on Ubuntu 20.04 LAMP - two machines auto provision with LDAP authentication plugin. php-fpm module used.
 
 Prerequestions: Linux, Git, Virtualbox (+ kernel module), Vagrant, Ansible.
 
 This scenario will install a WordPress website on the top of a LAMP environment (**L**inux, **A**pache, **M**ySQL and **P**HP) on a two virtualbox machines, running Ubuntu 20.04. 
-Playbook derived basically from [https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-wordpress-with-lamp-on-ubuntu-18-04]. **authLdap** plugin taken from [https://github.com/heiglandreas/authLdap.git] and cleaned of unnecessary files. A virtualhosts will be created with the options specified in the `provisioning/vars/common.yml` variable file, the WP settings are taken from the `provisioning/vars/wp_init.yml`.
+
+Playbook derived basically from [https://www.digitalocean.com/community/tutorials/how-to-use-ansible-to-install-and-set-up-wordpress-with-lamp-on-ubuntu-18-04]. 
+
+**php-fpm** module installation and settings - https://www.digitalocean.com/community/tutorials/how-to-configure-apache-http-with-mpm-event-and-php-fpm-on-ubuntu-18-04. 
+
+Settings for more stable server work are pointed in https://hika.su/blog/nastrojka-servera-apache-mpm-event-php-fpm-http-2#ustanovka-apache. Config files - */etc/php/7.4/fpm/php-fpm.conf* and */etc/php/7.4/apache2/php.ini*. Only limits for memory and files will be changed in *php.ini*.
+
+
+**authLdap** plugin taken from [https://github.com/heiglandreas/authLdap.git] and cleaned of unnecessary files. A virtualhosts will be created with the options specified in the *provisioning/vars/common.yml* variable file, the WP settings are taken from the *provisioning/vars/wp_init.yml*.
 
 ## Settings
 
@@ -15,6 +23,9 @@ Playbook derived basically from [https://www.digitalocean.com/community/tutorial
 - `http_host`: Your WP host name.
 - `http_conf`: The name of the configuration file that will be created within Apache.
 - `http_port`: HTTP port for this virtual host, where `80` is the default. 
+- `wp_blog_title`: WordPress blog title.
+- `wp_lang`: defaul language settings.
+
 
 ## Running this setup
 
@@ -55,8 +66,12 @@ http_host: "test_wp"
 http_conf: "test_wp.conf"
 http_port: "80"
 wp_host: "192.168.100.3"
+```
 
-php_modules: [ 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip', 'php-ldap' ]
+```yml
+---
+wp_blog_title: "Ёжик_в_тумане"
+wp_lang: "ru_RU"
 ```
 
 ### 3. Run the setup
@@ -67,5 +82,6 @@ vagrant up
 
 ## Check
 
-Login to wordpress homepage [http://192.168.100.3] (default WP IP). You can get the required login credentials at [https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server/].
-Login for local WordPress administrator - _luser:supermario_.
+Login to wordpress homepage [http://192.168.100.3] (default WP IP). It is nesessary to activate AuthLDAP plugin and set up connection parametres for using LDAP autorization.
+
+Login for local WordPress administrator - _luser:supermario_ (http://192.168.100.3/admin).

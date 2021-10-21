@@ -2,14 +2,25 @@
 # tasks file for web
 
     - name: Install LAP Packages
-      apt: name={{ item }} update_cache=yes state=latest
-      loop: [ 'apache2', 'php', 'php-mysql', 'libapache2-mod-php' ]
+      apt: name={{ item }} state=latest
+      loop: [ 'apache2', 'php', 'php-mysql', 'libapache2-mod-fcgid', 'unzip' ]
       tags: [ web_install ]
 
     - name: Install PHP Extensions
-      apt: name={{ item }} update_cache=yes state=latest
+      apt: name={{ item }} state=latest
       loop: "{{ php_modules }}"
       tags: [ web_install ]
+
+    - name: Increase PHP memory and file limits
+      lineinfile:
+        path: "/etc/php/{{ php_ver }}/apache2/php.ini"
+        state: present
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - { regexp: '^memory_limit', line: 'memory_limit = 256M' }
+        - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 32M' }
+        - { regexp: '^post_max_size', line: 'post_max_size = 32M' }
 
   # Apache Configuration
     - name: Create document root
@@ -30,7 +41,27 @@
 
     - name: Enable rewrite module
       shell: /usr/sbin/a2enmod rewrite
+      notify: Restart Apache
+      tags: [ apache_conf ]
+
+    - name: Disable default php module and pre-fork mpm module
+      shell: /usr/sbin/a2dismod php{{ php_ver }} mpm_prefork
+      notify: Restart Apache
+      tags: [ apache_conf ]
+
+    - name: Enable event mpm module
+      shell: /usr/sbin/a2enmod mpm_event
+      notify: Restart Apache
+      tags: [ apache_conf ]
+
+    - name: Enable php-fpm module
+      shell: /usr/sbin/a2enconf php{{ php_ver }}-fpm
       notify: Reload Apache
+      tags: [ apache_conf ]
+
+    - name: Enable proxy and proxy_fcgi modules
+      shell: /usr/sbin/a2enmod proxy_fcgi
+      notify: Restart Apache
       tags: [ apache_conf ]
 
     - name: Enable new site

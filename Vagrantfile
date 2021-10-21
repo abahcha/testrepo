@@ -6,7 +6,6 @@ Vagrant.configure("2") do |config|
   end
 
 #  config.vm.network "public_network", use_dhcp_assigned_default_route: true
-#  config.vm.provision "shell", inline: "echo Hello"
 
   config.vm.define "base" do |db|
     db.vm.hostname = "mysql"
