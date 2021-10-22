@@ -10,8 +10,9 @@ Playbook derived basically from [https://www.digitalocean.com/community/tutorial
 
 Settings for more stable server work are pointed in https://hika.su/blog/nastrojka-servera-apache-mpm-event-php-fpm-http-2#ustanovka-apache. Config files - */etc/php/7.4/fpm/php-fpm.conf* and */etc/php/7.4/apache2/php.ini*. Only limits for memory and files will be changed in *php.ini*.
 
+**authLdap** plugin taken from the official WordPress website https://downloads.wordpress.org/plugin/authldap.zip. 
 
-**authLdap** plugin taken from [https://github.com/heiglandreas/authLdap.git] and cleaned of unnecessary files. A virtualhosts will be created with the options specified in the *provisioning/vars/common.yml* variable file, the WP settings are taken from the *provisioning/vars/wp_init.yml*.
+A virtual hosts will be created with the options specified in the *provisioning/vars/common.yml* file, the WP settings are taken from the *provisioning/vars/wp_init.yml*.
 
 ## Settings
 
